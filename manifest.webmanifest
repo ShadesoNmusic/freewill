@@ -1,0 +1,16 @@
+{
+  "name": "01010 vs 10101",
+  "short_name": "FreeWill",
+  "description": "A two-colour Game of Life. Plant a seed, start a war.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#202020",
+  "theme_color": "#202020",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}

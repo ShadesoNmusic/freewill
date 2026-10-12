@@ -1,0 +1,1276 @@
+[
+ {
+  "id": "wall",
+  "name": "The Wall",
+  "blurb": "Twenty blocks shoulder to shoulder. It never attacks; it just waits for you to trip over it.",
+  "counter": "Plant one R-pentomino in the middle of your half and spread the rest as blocks along your front row; the bloom outgrows a wall that never moves.",
+  "pieces": [
+   {
+    "shape": "block",
+    "cx": 2,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 8,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 14,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 20,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 27,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 32,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 38,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 44,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 50,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 56,
+    "cy": 35,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 8,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 11,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 16,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 17,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 29,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 35,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 39,
+    "cy": 41,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 45,
+    "cy": 41,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 53,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 59,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [1,34],
+   [2,34],
+   [1,35],
+   [2,35],
+   [7,34],
+   [8,34],
+   [7,35],
+   [8,35],
+   [13,34],
+   [14,34],
+   [13,35],
+   [14,35],
+   [19,35],
+   [20,35],
+   [19,36],
+   [20,36],
+   [26,35],
+   [27,35],
+   [26,36],
+   [27,36],
+   [31,34],
+   [32,34],
+   [31,35],
+   [32,35],
+   [37,34],
+   [38,34],
+   [37,35],
+   [38,35],
+   [43,34],
+   [44,34],
+   [43,35],
+   [44,35],
+   [49,34],
+   [50,34],
+   [49,35],
+   [50,35],
+   [55,34],
+   [56,34],
+   [55,35],
+   [56,35],
+   [7,38],
+   [8,38],
+   [7,39],
+   [8,39],
+   [10,38],
+   [11,38],
+   [10,39],
+   [11,39],
+   [15,35],
+   [16,35],
+   [15,36],
+   [16,36],
+   [16,38],
+   [17,38],
+   [16,39],
+   [17,39],
+   [28,38],
+   [29,38],
+   [28,39],
+   [29,39],
+   [34,38],
+   [35,38],
+   [34,39],
+   [35,39],
+   [38,40],
+   [39,40],
+   [38,41],
+   [39,41],
+   [44,40],
+   [45,40],
+   [44,41],
+   [45,41],
+   [52,38],
+   [53,38],
+   [52,39],
+   [53,39],
+   [58,38],
+   [59,38],
+   [58,39],
+   [59,39]
+  ],
+  "winRateVsRandom": 0.55,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.3,
+   "4R": 0.3,
+   "gun+R": 0.5,
+   "all blocks": 0.8,
+   "glider spam": 0.9,
+   "3R+blocks": 0.3,
+   "border 4R": 0.3
+  },
+  "points": 20,
+  "challengeCode": "000020t000080t0000e0t0000k0s0000r0s0000w0t000120t000180t0001e0t0001k0t000080p0000b0p0000g0s0000h0p0000t0p0000z0p000130n000190n0001h0p0001n0p",
+  "counterWinRate": 0.68
+ },
+ {
+  "id": "gunner",
+  "name": "The Lone Gunner",
+  "blurb": "One glider gun and a single R-pentomino. Very loud, aims straight, and does nothing else.",
+  "counter": "Four R-pentominoes spread across the middle of your half; the gun covers one lane and cannot keep up with four blooms.",
+  "pieces": [
+   {
+    "shape": "gun",
+    "cx": 41,
+    "cy": 48,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 38,
+    "cy": 60,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [47,44],
+   [45,45],
+   [47,45],
+   [35,46],
+   [36,46],
+   [43,46],
+   [44,46],
+   [57,46],
+   [58,46],
+   [34,47],
+   [38,47],
+   [43,47],
+   [44,47],
+   [57,47],
+   [58,47],
+   [23,48],
+   [24,48],
+   [33,48],
+   [39,48],
+   [43,48],
+   [44,48],
+   [23,49],
+   [24,49],
+   [33,49],
+   [37,49],
+   [39,49],
+   [40,49],
+   [45,49],
+   [47,49],
+   [33,50],
+   [39,50],
+   [47,50],
+   [34,51],
+   [38,51],
+   [35,52],
+   [36,52],
+   [38,59],
+   [39,59],
+   [37,60],
+   [38,60],
+   [38,61]
+  ],
+  "winRateVsRandom": 0.61,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.5,
+   "4R": 0.5,
+   "gun+R": 0.4,
+   "all blocks": 0.8,
+   "glider spam": 0.8,
+   "3R+blocks": 0.5,
+   "border 4R": 0.3
+  },
+  "points": 20,
+  "challengeCode": "411150f3211203",
+  "counterWinRate": 0.85
+ },
+ {
+  "id": "twinkle",
+  "name": "Twinkle Field",
+  "blurb": "Twenty blinkers flickering in a field. Pretty, harmless alone, and they catch whatever blunders in.",
+  "counter": "Four R-pentominoes right on your front rows (29-31); they bloom straight into the blinkers and swallow them.",
+  "pieces": [
+   {
+    "shape": "blinker",
+    "cx": 3,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 6,
+    "cy": 35,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 15,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 21,
+    "cy": 38,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 26,
+    "cy": 39,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 33,
+    "cy": 38,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 39,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 45,
+    "cy": 38,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 51,
+    "cy": 36,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 57,
+    "cy": 38,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 3,
+    "cy": 42,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 9,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 15,
+    "cy": 42,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 21,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 27,
+    "cy": 42,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 33,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 40,
+    "cy": 38,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 45,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 48,
+    "cy": 43,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "blinker",
+    "cx": 57,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   }
+  ],
+  "cells": [
+   [2,36],
+   [3,36],
+   [4,36],
+   [6,34],
+   [6,35],
+   [6,36],
+   [14,36],
+   [15,36],
+   [16,36],
+   [21,37],
+   [21,38],
+   [21,39],
+   [25,39],
+   [26,39],
+   [27,39],
+   [33,37],
+   [33,38],
+   [33,39],
+   [38,36],
+   [39,36],
+   [40,36],
+   [45,37],
+   [45,38],
+   [45,39],
+   [50,36],
+   [51,36],
+   [52,36],
+   [57,37],
+   [57,38],
+   [57,39],
+   [2,42],
+   [3,42],
+   [4,42],
+   [9,43],
+   [9,44],
+   [9,45],
+   [14,42],
+   [15,42],
+   [16,42],
+   [21,43],
+   [21,44],
+   [21,45],
+   [26,42],
+   [27,42],
+   [28,42],
+   [33,43],
+   [33,44],
+   [33,45],
+   [39,38],
+   [40,38],
+   [41,38],
+   [45,43],
+   [45,44],
+   [45,45],
+   [47,43],
+   [48,43],
+   [49,43],
+   [57,43],
+   [57,44],
+   [57,45]
+  ],
+  "winRateVsRandom": 0.68,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.3,
+   "4R": 0.7,
+   "gun+R": 0.3,
+   "all blocks": 0.65,
+   "glider spam": 0.9,
+   "3R+blocks": 0.4,
+   "border 4R": 0.5
+  },
+  "points": 20,
+  "challengeCode": "100030r110060s1000f0r1100l0p1000q0o1100x0p100130r110190p1001f0r1101l0p100030l110090j1000f0l1100l0j1000r0l1100x0j100140p110190j1001c0k1101l0j",
+  "counterWinRate": 0.7
+ },
+ {
+  "id": "swarm",
+  "name": "The Swarm",
+  "blurb": "Five gliders sent at you all at once, with one R-pentomino left at home.",
+  "counter": "Two R-pentominoes in the middle of your half behind a front row of ten blocks; the blocks soak up the gliders.",
+  "pieces": [
+   {
+    "shape": "glider",
+    "cx": 8,
+    "cy": 41,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "glider",
+    "cx": 18,
+    "cy": 41,
+    "r": 2,
+    "m": true
+   },
+   {
+    "shape": "glider",
+    "cx": 30,
+    "cy": 37,
+    "r": 2,
+    "m": true
+   },
+   {
+    "shape": "glider",
+    "cx": 41,
+    "cy": 39,
+    "r": 3,
+    "m": false
+   },
+   {
+    "shape": "glider",
+    "cx": 57,
+    "cy": 35,
+    "r": 3,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 32,
+    "cy": 56,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [8,42],
+   [7,41],
+   [9,40],
+   [8,40],
+   [7,40],
+   [18,42],
+   [19,41],
+   [17,40],
+   [18,40],
+   [19,40],
+   [30,38],
+   [31,37],
+   [29,36],
+   [30,36],
+   [31,36],
+   [40,39],
+   [41,38],
+   [42,40],
+   [42,39],
+   [42,38],
+   [56,35],
+   [57,34],
+   [58,36],
+   [58,35],
+   [58,34],
+   [32,55],
+   [33,55],
+   [31,56],
+   [32,56],
+   [32,57]
+  ],
+  "winRateVsRandom": 0.69,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.6,
+   "4R": 0.4,
+   "gun+R": 0.4,
+   "all blocks": 0.9,
+   "glider spam": 0.7,
+   "3R+blocks": 0.6,
+   "border 4R": 0.3
+  },
+  "points": 20,
+  "challengeCode": "201080m2000i0m2000u0q231150o2311l0s3210w07",
+  "counterWinRate": 0.6
+ },
+ {
+  "id": "bloomer",
+  "name": "The Bloomer",
+  "blurb": "Four R-pentominoes dropped in the middle of its half, then it lets chaos do the work.",
+  "counter": "Four R-pentominoes right on your front rows (29-31), so your chaos reaches the border before its chaos does.",
+  "pieces": [
+   {
+    "shape": "rpent",
+    "cx": 11,
+    "cy": 52,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 24,
+    "cy": 42,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 44,
+    "cy": 44,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 57,
+    "cy": 47,
+    "r": 1,
+    "m": true
+   }
+  ],
+  "cells": [
+   [11,51],
+   [12,51],
+   [10,52],
+   [11,52],
+   [11,53],
+   [25,42],
+   [25,43],
+   [24,41],
+   [24,42],
+   [23,42],
+   [45,44],
+   [45,45],
+   [44,43],
+   [44,44],
+   [43,44],
+   [58,47],
+   [58,46],
+   [57,48],
+   [57,47],
+   [56,47]
+  ],
+  "winRateVsRandom": 0.73,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.8,
+   "4R": 0.6,
+   "gun+R": 0.4,
+   "all blocks": 0.9,
+   "glider spam": 0.9,
+   "3R+blocks": 0.5,
+   "border 4R": 0.4
+  },
+  "points": 20,
+  "challengeCode": "3210b0b3110o0l311180j3101l0g",
+  "counterWinRate": 0.66
+ },
+ {
+  "id": "charger",
+  "name": "The Charger",
+  "blurb": "Four R-pentominoes jammed right against the border. It wants to fight at your doorstep.",
+  "counter": "Three R-pentominoes in the middle of your half with five blocks on your front rows to blunt its charge.",
+  "pieces": [
+   {
+    "shape": "rpent",
+    "cx": 4,
+    "cy": 33,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 24,
+    "cy": 34,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 40,
+    "cy": 34,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 56,
+    "cy": 36,
+    "r": 3,
+    "m": false
+   }
+  ],
+  "cells": [
+   [4,34],
+   [3,34],
+   [5,33],
+   [4,33],
+   [4,32],
+   [24,33],
+   [25,33],
+   [23,34],
+   [24,34],
+   [24,35],
+   [40,35],
+   [39,35],
+   [41,34],
+   [40,34],
+   [40,33],
+   [55,36],
+   [55,35],
+   [56,37],
+   [56,36],
+   [57,36]
+  ],
+  "winRateVsRandom": 0.76,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.6,
+   "4R": 0.5,
+   "gun+R": 0.5,
+   "all blocks": 0.5,
+   "glider spam": 0.8,
+   "3R+blocks": 0.4,
+   "border 4R": 0.3
+  },
+  "points": 20,
+  "challengeCode": "301040u3210o0t301140t3311k0r",
+  "counterWinRate": 0.6
+ },
+ {
+  "id": "juggler",
+  "name": "The Juggler",
+  "blurb": "Three R-pentominoes, a glider and two blocks: a bit of everything, nothing too much.",
+  "counter": "Back door: R-pentominoes on both of your edges (rows 29-31 and rows 0-2, which wrap onto its back row).",
+  "pieces": [
+   {
+    "shape": "rpent",
+    "cx": 12,
+    "cy": 42,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 32,
+    "cy": 46,
+    "r": 1,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 56,
+    "cy": 44,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "glider",
+    "cx": 22,
+    "cy": 36,
+    "r": 3,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 4,
+    "cy": 60,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 60,
+    "cy": 60,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [12,41],
+   [13,41],
+   [11,42],
+   [12,42],
+   [12,43],
+   [33,46],
+   [33,47],
+   [32,45],
+   [32,46],
+   [31,46],
+   [56,45],
+   [55,45],
+   [57,44],
+   [56,44],
+   [56,43],
+   [21,36],
+   [22,35],
+   [23,37],
+   [23,36],
+   [23,35],
+   [3,59],
+   [4,59],
+   [3,60],
+   [4,60],
+   [59,59],
+   [60,59],
+   [59,60],
+   [60,60]
+  ],
+  "winRateVsRandom": 0.76,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.5,
+   "4R": 0.4,
+   "gun+R": 0.8,
+   "all blocks": 0.8,
+   "glider spam": 0.7,
+   "3R+blocks": 0.4,
+   "border 4R": 0.3
+  },
+  "points": 20,
+  "challengeCode": "3210c0l3110w0h3011k0j2310m0r00004040001o04",
+  "counterWinRate": 0.7
+ },
+ {
+  "id": "gunline",
+  "name": "Gun Line",
+  "blurb": "A glider gun at the back and an R-pentomino blooming on the front line. Fire and fury.",
+  "counter": "Four R-pentominoes right on your front rows (29-31) to swamp its front bloom before the gun gets going.",
+  "pieces": [
+   {
+    "shape": "gun",
+    "cx": 32,
+    "cy": 56,
+    "r": 0,
+    "m": true
+   },
+   {
+    "shape": "rpent",
+    "cx": 37,
+    "cy": 38,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [25,52],
+   [27,53],
+   [25,53],
+   [37,54],
+   [36,54],
+   [29,54],
+   [28,54],
+   [15,54],
+   [14,54],
+   [38,55],
+   [34,55],
+   [29,55],
+   [28,55],
+   [15,55],
+   [14,55],
+   [49,56],
+   [48,56],
+   [39,56],
+   [33,56],
+   [29,56],
+   [28,56],
+   [49,57],
+   [48,57],
+   [39,57],
+   [35,57],
+   [33,57],
+   [32,57],
+   [27,57],
+   [25,57],
+   [39,58],
+   [33,58],
+   [25,58],
+   [38,59],
+   [34,59],
+   [37,60],
+   [36,60],
+   [37,37],
+   [38,37],
+   [36,38],
+   [37,38],
+   [37,39]
+  ],
+  "winRateVsRandom": 0.79,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.3,
+   "4R": 0.5,
+   "gun+R": 0.5,
+   "all blocks": 0.8,
+   "glider spam": 0.7,
+   "3R+blocks": 0.7,
+   "border 4R": 0.2
+  },
+  "points": 20,
+  "challengeCode": "4100w07321110p",
+  "counterWinRate": 0.6
+ },
+ {
+  "id": "shield",
+  "name": "the Shield",
+  "blurb": "Two R-pentominoes in the middle and ten blocks along both edges. It bolts the back door shut, so the wraparound trick dies on its blocks.",
+  "counter": "Three R-pentominoes spread across the middle of your half with five blocks on your front rows; its blocks guard the edges, not the middle, and it can't outgrow three blooms.",
+  "pieces": [
+   {
+    "shape": "rpent",
+    "cx": 18,
+    "cy": 50,
+    "r": 3,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 54,
+    "cy": 45,
+    "r": 3,
+    "m": true
+   },
+   {
+    "shape": "block",
+    "cx": 24,
+    "cy": 63,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 28,
+    "cy": 34,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 52,
+    "cy": 63,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 9,
+    "cy": 63,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 59,
+    "cy": 63,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 19,
+    "cy": 33,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 36,
+    "cy": 33,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 3,
+    "cy": 33,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 43,
+    "cy": 33,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 5,
+    "cy": 33,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [17,50],
+   [17,49],
+   [18,51],
+   [18,50],
+   [19,50],
+   [53,45],
+   [53,46],
+   [54,44],
+   [54,45],
+   [55,45],
+   [23,63],
+   [24,63],
+   [23,62],
+   [24,62],
+   [27,34],
+   [28,34],
+   [27,33],
+   [28,33],
+   [51,63],
+   [52,63],
+   [51,62],
+   [52,62],
+   [8,63],
+   [9,63],
+   [8,62],
+   [9,62],
+   [58,63],
+   [59,63],
+   [58,62],
+   [59,62],
+   [18,33],
+   [19,33],
+   [18,32],
+   [19,32],
+   [35,33],
+   [36,33],
+   [35,32],
+   [36,32],
+   [2,33],
+   [3,33],
+   [2,32],
+   [3,32],
+   [42,33],
+   [43,33],
+   [42,32],
+   [43,32],
+   [4,33],
+   [5,33],
+   [4,32],
+   [5,32]
+  ],
+  "winRateVsRandom": 0.83,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.85,
+   "4R": 0.3,
+   "gun+R": 0.7,
+   "all blocks": 0.7,
+   "glider spam": 1,
+   "3R+blocks": 0.7,
+   "border 4R": 0.8
+  },
+  "points": 20,
+  "challengeCode": "3310i0d3301i0i0000o010000s0u0001g0100009010001n010000j0v000100v000030v000170v000050v",
+  "counterWinRate": 0.5
+ },
+ {
+  "id": "feint",
+  "name": "The Feint",
+  "blurb": "Three gliders go left to draw your eye, while two R-pentominoes quietly bloom on the right.",
+  "counter": "Back door: ignore the gliders and put R-pentominoes on both of your edges (rows 29-31 and rows 0-2).",
+  "pieces": [
+   {
+    "shape": "glider",
+    "cx": 6,
+    "cy": 38,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "glider",
+    "cx": 11,
+    "cy": 43,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "glider",
+    "cx": 28,
+    "cy": 34,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 52,
+    "cy": 40,
+    "r": 2,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 36,
+    "cy": 52,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "block",
+    "cx": 60,
+    "cy": 57,
+    "r": 0,
+    "m": false
+   }
+  ],
+  "cells": [
+   [6,39],
+   [5,38],
+   [7,37],
+   [6,37],
+   [5,37],
+   [11,44],
+   [10,43],
+   [12,42],
+   [11,42],
+   [10,42],
+   [28,35],
+   [27,34],
+   [29,33],
+   [28,33],
+   [27,33],
+   [52,41],
+   [51,41],
+   [53,40],
+   [52,40],
+   [52,39],
+   [36,51],
+   [37,51],
+   [35,52],
+   [36,52],
+   [36,53],
+   [59,56],
+   [60,56],
+   [59,57],
+   [60,57]
+  ],
+  "winRateVsRandom": 0.84,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.4,
+   "4R": 0.7,
+   "gun+R": 0.6,
+   "all blocks": 0.7,
+   "glider spam": 0.9,
+   "3R+blocks": 0.8,
+   "border 4R": 0.4
+  },
+  "points": 20,
+  "challengeCode": "201060p2010b0k2010s0t3011g0n321100b0001o07",
+  "counterWinRate": 0.6
+ },
+ {
+  "id": "pincer",
+  "name": "The Pincer",
+  "blurb": "Two R-pentominoes on its front line and two on its back edge, which wraps around onto yours. You are attacked from both sides.",
+  "counter": "Back door: pincer it back with R-pentominoes on rows 29-31 and rows 0-2, right across from its pairs.",
+  "pieces": [
+   {
+    "shape": "rpent",
+    "cx": 10,
+    "cy": 34,
+    "r": 3,
+    "m": true
+   },
+   {
+    "shape": "rpent",
+    "cx": 37,
+    "cy": 34,
+    "r": 3,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 46,
+    "cy": 62,
+    "r": 0,
+    "m": false
+   },
+   {
+    "shape": "rpent",
+    "cx": 14,
+    "cy": 61,
+    "r": 0,
+    "m": true
+   }
+  ],
+  "cells": [
+   [9,34],
+   [9,35],
+   [10,33],
+   [10,34],
+   [11,34],
+   [36,34],
+   [36,33],
+   [37,35],
+   [37,34],
+   [38,34],
+   [46,61],
+   [47,61],
+   [45,62],
+   [46,62],
+   [46,63],
+   [14,60],
+   [13,60],
+   [15,61],
+   [14,61],
+   [14,62]
+  ],
+  "winRateVsRandom": 0.85,
+  "winRateVsBuilds": {
+   "2R+gliders+blocks": 0.8,
+   "4R": 0.6,
+   "gun+R": 0.75,
+   "all blocks": 0.7,
+   "glider spam": 1,
+   "3R+blocks": 0.8,
+   "border 4R": 0.4
+  },
+  "points": 20,
+  "challengeCode": "3300a0t331110t3211a003200e02",
+  "counterWinRate": 0.6
+ }
+]

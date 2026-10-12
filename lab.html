@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>FreeWill lab</title><meta name="theme-color" content="#202020"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">
+<style>
+html,body{overscroll-behavior:none}
+body{margin:0;background:#202020;color:#ddd;font-family:monospace;display:flex;flex-direction:column;align-items:center;padding:calc(54px + env(safe-area-inset-top)) 8px calc(90px + env(safe-area-inset-bottom));-webkit-tap-highlight-color:transparent}
+#feel-title,#feel-a11y,#feel-level,#feel-guide-btn,#feel-lab,#feel-replay,#feel-round{display:none !important}
+#back{position:fixed;left:10px;top:calc(8px + env(safe-area-inset-top));z-index:61;font:14px monospace;color:#ffd84a;background:#222;border:1px solid #555;border-radius:8px;padding:0 14px;min-height:44px;display:flex;align-items:center;text-decoration:none}
+@media (max-width:420px){.row button,.row select{padding:8px 9px;font-size:13px}}
+#stat{margin:4px 0 8px;font-size:14px;text-align:center;min-height:1.4em}
+canvas#c{border:2px solid #444;border-radius:6px;width:min(96vw,640px,calc(100svh - 300px));min-width:280px;height:auto;aspect-ratio:1;touch-action:none;box-sizing:border-box}
+.row{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:8px 0 0;max-width:min(96vw,660px)}
+button,select{font:14px monospace;background:#333;color:#eee;border:1px solid #666;border-radius:8px;padding:8px 12px;min-height:40px;cursor:pointer}
+button.on{background:#ffd84a;color:#000;font-weight:bold;border-color:#fff6c8}
+#found{font-size:12px;color:#7dd3ff;min-height:1.3em;margin-top:8px;text-align:center;max-width:min(96vw,640px)}
+#help{font-size:12px;color:#999;max-width:min(96vw,640px);text-align:center;margin-top:8px;line-height:1.45}
+</style></head><body>
+<a id="back" href="index.html">&lsaquo; back to the game</a>
+<div id="stat">lab</div>
+<canvas id="c" width="640" height="640"></canvas>
+<div class="row">
+ <button id="play" class="on">&#9654; play</button><button id="step">step</button>
+ <select id="speed" title="speed"><option value="4">slow</option><option value="12" selected>normal</option><option value="40">fast</option></select>
+ <button id="clear">clear</button><button id="soup">random</button>
+</div>
+<div class="row">
+ <button data-c="1" class="col on">black</button><button data-c="2" class="col">white</button><button data-c="0" class="col">erase</button>
+ <select id="stamp" title="what a tap places"></select><button id="rot">rotate &#8635;</button>
+</div>
+<div class="row"><button id="spot">spot patterns</button><button id="share">share this board</button></div>
+<div id="found"></div>
+<div id="help">Free build: no points, no opponent. Tap or drag to draw, pick a pattern to stamp it, then play or step. Same rules as the game: the edges wrap, a birth takes the majority colour, and an outnumbered cell switches sides.</div>
+<script src="feel.js"></script>
+<script>
+// FreeWill lab (10101): the game's exact rules on an open board
+(function(){
+const N=64,S=10,cv=document.getElementById('c'),ctx=cv.getContext('2d');
+let g=new Int8Array(N*N),flipped=null,gen=0,running=false,col=1,rot=0;
+function stepGrid(g){const n=new Int8Array(N*N),f=new Int8Array(N*N);
+ for(let y=0;y<N;y++){const ym=((y+N-1)%N)*N,y0=y*N,yp=((y+1)%N)*N;
+  for(let x=0;x<N;x++){const xm=(x+N-1)%N,xp=(x+1)%N;let b=0,w=0;
+   for(const j of [ym+xm,ym+x,ym+xp,y0+xm,y0+xp,yp+xm,yp+x,yp+xp]){const v=g[j];if(v===1)b++;else if(v===2)w++;}
+   const t=b+w,i=y0+x,c=g[i];
+   if(c){if(t===2||t===3){const own=c===1?b:w,oth=c===1?w:b;if(oth>own){n[i]=3-c;f[i]=c;}else n[i]=c;}}
+   else if(t===3)n[i]=b>w?1:2;}}
+ return{n,f};}
+const STAMPS=[['cell','single cell',['X']],['block','block',['XX','XX']],['blinker','blinker',['XXX']],['glider','glider',['.X.','..X','XXX']],
+ ['r','R-pentomino',['.XX','XX.','.X.']],['lwss','lightweight spaceship',['.X..X','X....','X...X','XXXX.']],['toad','toad',['.XXX','XXX.']],
+ ['acorn','acorn',['.X.....','...X...','XX..XXX']],['pulsar','pulsar',(feel.guide&&feel.guide.LIB.find(p=>p[0]==='pulsar')||[,,,,['X']])[4]]];
+const sel=document.getElementById('stamp');sel.innerHTML=STAMPS.map(([id,n])=>`<option value="${id}">${n}</option>`).join('');
+const cellsOf=()=>{const rows=STAMPS.find(s=>s[0]===sel.value)[2],pts=[];rows.forEach((r,y)=>[...r].forEach((ch,x)=>{if(ch==='X')pts.push([x,y]);}));
+ const W=Math.max(...rows.map(r=>r.length)),H=rows.length;return pts.map(([x,y])=>{let w=W,h=H;for(let k=0;k<rot;k++){[x,y]=[h-1-y,x];[w,h]=[h,w];}return[x-(w>>1),y-(h>>1)];});};
+function draw(){if(feel.drawCells)feel.drawCells(ctx,g,flipped,null,null,S,N);else{ctx.fillStyle='#7f8189';ctx.fillRect(0,0,640,640);for(let i=0;i<g.length;i++)if(g[i]){ctx.fillStyle=g[i]===1?'#222':'#f4f4f4';ctx.fillRect((i%N)*S,((i/N)|0)*S,S-1,S-1);}}
+ let b=0,w=0;for(const v of g){if(v===1)b++;else if(v===2)w++;}document.getElementById('stat').textContent=`generation ${gen}   black ${b}   white ${w}`;}
+let spotOn=false;const stale=()=>{if(spotOn&&!running){spotOn=false;document.getElementById('found').textContent='';}};
+function spotNow(){const el=document.getElementById('found');if(!feel.guide)return;const f=feel.guide.scan([g]),names=feel.guide.LIB.filter(p=>f[p[0]]).map(p=>p[1].toLowerCase());
+ el.textContent=(running?'spotting live: ':'on the board now: ')+(names.length?names.join(', '):'no named patterns');spotOn=true;}
+function tick(){if(!running)return;const r=stepGrid(g);g=r.n;flipped=r.f;gen++;draw();if(spotOn&&gen%6===0)spotNow();}
+let timer=null;const sched=()=>{clearInterval(timer);timer=setInterval(tick,1000/+document.getElementById('speed').value);};sched();
+document.getElementById('speed').onchange=sched;
+const playB=document.getElementById('play');const setRun=v=>{running=v;if(spotOn)setTimeout(spotNow,0);playB.innerHTML=v?'&#10074;&#10074; pause':'&#9654; play';playB.classList.toggle('on',!v);};
+playB.onclick=()=>setRun(!running);
+document.getElementById('step').onclick=()=>{setRun(false);const r=stepGrid(g);g=r.n;flipped=r.f;gen++;draw();if(spotOn)spotNow();};
+document.getElementById('clear').onclick=()=>{setRun(false);stale();g=new Int8Array(N*N);flipped=null;gen=0;feel.resetBoardFx&&feel.resetBoardFx();draw();};
+document.getElementById('soup').onclick=()=>{stale();g=new Int8Array(N*N);for(let i=0;i<g.length;i++)if(Math.random()<.22)g[i]=((i/N)|0)<N/2?1:2;gen=0;flipped=null;feel.resetBoardFx&&feel.resetBoardFx();draw();};
+document.querySelectorAll('.col').forEach(b=>b.onclick=()=>{col=+b.dataset.c;document.querySelectorAll('.col').forEach(x=>x.classList.toggle('on',x===b));});
+document.getElementById('rot').onclick=()=>{rot=(rot+1)%4;};
+// drawing: a single cell paints as you drag; any other pattern stamps once where you tap
+const at=e=>{const R=cv.getBoundingClientRect();return[Math.floor((e.clientX-R.left)/R.width*N),Math.floor((e.clientY-R.top)/R.height*N)];};
+let down=false,last=-1,lx=null,ly=null;
+const paint=e=>{const [x,y]=at(e);if(sel.value==='cell'){const i=((y+N)%N)*N+((x+N)%N);if(i===last)return;last=i;
+  if(lx===null){g[i]=col;}else{const n=Math.max(Math.abs(x-lx),Math.abs(y-ly));for(let k=1;k<=n;k++){const xx=Math.round(lx+(x-lx)*k/n),yy=Math.round(ly+(y-ly)*k/n);g[((yy+N)%N)*N+((xx+N)%N)]=col;}}
+  lx=x;ly=y;stale();}
+ else{for(const [dx,dy] of cellsOf())g[((y+dy+N)%N)*N+((x+dx+N)%N)]=col;stale();}draw();};
+cv.addEventListener('pointerdown',e=>{down=true;last=-1;lx=ly=null;cv.setPointerCapture(e.pointerId);paint(e);});
+cv.addEventListener('pointermove',e=>{if(down&&sel.value==='cell'){(e.getCoalescedEvents?e.getCoalescedEvents():[e]).forEach(paint);}});
+addEventListener('pointerup',()=>{down=false;});
+// spotting uses the field guide, but only reports: the guide is filled by real games
+document.getElementById('spot').onclick=spotNow;
+// share: the board packed 2 bits per cell into the link
+const enc=()=>{const by=new Uint8Array(N*N/4);for(let i=0;i<g.length;i++)by[i>>2]|=g[i]<<((i&3)*2);let s='';by.forEach(b=>s+=String.fromCharCode(b));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');};
+const dec=t=>{try{const s=atob(t.replace(/-/g,'+').replace(/_/g,'/'));const a=new Int8Array(N*N);for(let i=0;i<a.length;i++)a[i]=(s.charCodeAt(i>>2)>>((i&3)*2))&3;for(let i=0;i<a.length;i++)if(a[i]>2)a[i]=0;return a;}catch(e){return null;}};
+document.getElementById('share').onclick=async()=>{const url=location.href.split('#')[0]+'#b='+enc();
+ try{if(navigator.share&&matchMedia('(pointer:coarse)').matches){await navigator.share({title:'FreeWill lab',url});return;}}catch(e){if(e&&e.name==='AbortError')return;}
+ try{await navigator.clipboard.writeText(url);document.getElementById('found').textContent='link copied';}catch(e){prompt('copy this link',url);}};
+const m=/#b=([A-Za-z0-9_-]+)/.exec(location.hash);if(m){const a=dec(m[1]);if(a){g=a;setRun(false);}}
+else{// a small starter so the board isn't empty: an R-pentomino each
+ for(const [x,y,c] of [[20,20,1],[44,44,2]])for(const [dx,dy] of [[1,0],[2,0],[0,1],[1,1],[1,2]])g[(y+dy)*N+x+dx]=c;}
+draw();
+})();
+</script></body></html>
