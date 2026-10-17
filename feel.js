@@ -19,7 +19,7 @@ const css=`
 #feel-mute{position:fixed;top:10px;right:12px;z-index:60;font:13px monospace;background:#333;color:#ddd;border:1px solid #555;padding:4px 8px;cursor:pointer}
 #feel-banner{height:30px;line-height:30px;margin:0 0 6px;font:bold 18px monospace;padding:0 18px;border:1px solid #555;opacity:0;pointer-events:none;transition:opacity .35s}
 #feel-banner.on{opacity:1}
-#feel-round{font:13px monospace;color:#bbb;margin:6px 0 0;letter-spacing:2px;height:20px;line-height:20px;white-space:nowrap;visibility:hidden}
+#feel-round{font:13px monospace;color:#bbb;margin:6px 0 0;letter-spacing:2px;height:20px;line-height:20px;white-space:nowrap;visibility:hidden;max-width:100%;overflow:hidden;text-overflow:ellipsis}@media(max-width:560px){#feel-round{font-size:12px;letter-spacing:0}}
 #feel-round .pip{display:inline-block;width:12px;height:12px;margin:0 3px;border:1px solid #666;background:#808080;vertical-align:middle}
 #feel-title p.tag{background:none;color:#aaa;font-size:15px;letter-spacing:2px;margin:0 0 20px}
 #feel-title button.big{font-size:22px !important;padding:14px 26px;background:#808080;color:#000;border-color:#aaa}
@@ -102,16 +102,16 @@ const feel={onStart:null,muted:()=>muted,
   case 'levelUp': { const lv=d.level!=null?d.level:''; (feel.celebrate||flash)('level '+lv+(d.unlock?' \u00b7 unlocked '+d.unlock:''),'#7dff9a');
     [392,523,659,784,1047].forEach((f,k)=>setTimeout(()=>tone(f,.22,k%2?'square':'triangle',.045),k*80)); confetti(); break; }
   case 'arena': { placeRound(); roundEl.style.visibility='visible';
-    const hearts='<span style="color:#ff5a6e">'+'\u2665'.repeat(Math.max(0,d.lives))+'</span><span style="color:#555">'+'\u2665'.repeat(Math.max(0,3-d.lives))+'</span>';
+    const hearts='<span style="color:#ff5a6e">'+'\u2665'.repeat(Math.max(0,d.lives))+'</span><span style="color:#888">'+'\u2661'.repeat(Math.max(0,3-d.lives))+'</span>';
     let pips='';for(let k=0;k<10;k++)pips+=`<span class="pip" style="width:8px;height:8px;margin:0 1px;background:${k<d.wins?'#ffd84a':'#555'}"></span>`;
     roundEl.innerHTML=`arena ${d.game} vs ${d.opponent} &nbsp;${pips}&nbsp; ${hearts}`; tone(330,.1,'triangle',.05); break; }
   case 'mode': feel._mode=d.mode; if(!['cpu','hotseat','arena'].includes(d.mode))roundEl.style.visibility='hidden'; break;
   case 'round': if(window.game&&game._state&&game._state().arena)break; if(feel._mode&&!['cpu','hotseat','arena'].includes(feel._mode))break; drawRound(d); tone(330,.1,'triangle',.05); break;
-  case 'matchWinner': { const w=d.winner; showBanner(w===1?'01010 wins the match':w===2?'10101 wins the match':'match drawn',w,7000);
+  case 'matchWinner': { const w=d.winner; showBanner(d.label?d.label:w===1?'01010 wins the match':w===2?'10101 wins the match':'match drawn',w,7000);
     const base=w===1?131:w===2?262:196;[0,4,7,12,16,19,24].forEach((s,k)=>setTimeout(()=>tone(base*Math.pow(2,s/12),.5,k%2?'square':'triangle',.05),k*110)); break; }
   case 'winner': { const w=d.winner, md=(window.game&&game._state&&game._state().mode)||'';
     const words={campaign:['mission complete','mission failed'],challenge:['challenge won','challenge lost'],daily:['you win today','not today']}[md];
-    showBanner(words?(w===1?words[0]:words[1]):(w===1?'01010 wins':w===2?'10101 wins':'draw'),words?(w===1?1:0):w,words?3000:5000);
+    showBanner(words?(w===1?words[0]:words[1]):(d.label||(w===1?'01010 wins':w===2?'10101 wins':'draw')),words?(w===1?1:0):w,words?3000:5000);
     const base=w===1?196:w===2?392:294;[0,4,7,12].forEach((s,k)=>setTimeout(()=>tone(base*Math.pow(2,s/12),.4,'triangle',.06),k*140)); break; }
  }}};
 window.feel=feel;feel._flash=flash;
@@ -126,7 +126,7 @@ t.querySelectorAll('button').forEach(b=>b.onclick=()=>{A();t.classList.add('hide
 const feel=window.feel;
 const THEMES=[
  {id:'classic',name:'Classic',bg:'#7c7f86',grid:'rgba(0,0,0,.07)',c:[null,{f:'#0d0d10',h:'#3a3a44',e:'#000'},{f:'#f4f4f0',h:'#ffffff',e:'#c9c9c4'}]},
- {id:'paper',name:'Ink on paper',bg:'#e9e2d0',grid:'rgba(80,60,30,.08)',c:[null,{f:'#1d2433',h:'#3c4866',e:'#0a0e18'},{f:'#2f7d5b',h:'#5fb08a',e:'#1b4d37'}]},
+ {id:'paper',name:'Paper',bg:'#e9e2d0',grid:'rgba(80,60,30,.08)',c:[null,{f:'#1d2433',h:'#3c4866',e:'#0a0e18'},{f:'#2f7d5b',h:'#5fb08a',e:'#1b4d37'}]},
  {id:'ember',name:'Ember and ice',bg:'#1c1f26',grid:'rgba(255,255,255,.04)',c:[null,{f:'#ff7a2f',h:'#ffc078',e:'#a83a08'},{f:'#56c8ff',h:'#c4ecff',e:'#1f6fa8'}]},
  {id:'neon',name:'Neon',bg:'#0b0b14',grid:'rgba(120,120,255,.06)',c:[null,{f:'#ff2fb4',h:'#ff9be0',e:'#8a0b5e'},{f:'#2fffd2',h:'#b9fff0',e:'#0b8a6e'}],glow:true},
  {id:'forest',name:'Moss and stone',bg:'#3d4a3a',grid:'rgba(0,0,0,.08)',c:[null,{f:'#1f2a1c',h:'#3d5236',e:'#0d140b'},{f:'#d8d3c0',h:'#f5f1e4',e:'#9e987f'}]},
@@ -385,7 +385,9 @@ function card(o){const W=1080,cv=document.createElement('canvas');cv.width=cv.he
  x.fillStyle='#888';x.font='26px monospace';x.fillText(o.url?o.url.replace(/^https?:\/\//,'').replace(/#.*/,''):'plant a seed. start a war.',W/2,W-28);
  return cv;}
 feel.shareCard=card;
-feel.share=async function(o){const text=[o.title,o.line,o.url].filter(Boolean).join('\n');
+// an 8x8 emoji map of the final board for pasting anywhere: each square shows whichever side has more cells in that 8x8 patch
+feel.shareGrid=function(b,N){if(!b||!N)return '';const k=N/8|0;if(k<1)return '';let out=[];for(let Y=0;Y<8;Y++){let r='';for(let X=0;X<8;X++){let a=0,c=0;for(let y=Y*k;y<Y*k+k;y++)for(let x=X*k;x<X*k+k;x++){const v=b[y*N+x];if(v===1)a++;else if(v===2)c++;}r+=a+c===0?'\u2B1C':a>=c?'\u2B1B':'\uD83D\uDFE9';}out.push(r);}return out.join('\n');};
+feel.share=async function(o){const text=[o.title,o.line,feel.shareGrid(o.board,o.N),o.url].filter(Boolean).join('\n');
  // the clipboard only accepts writes during the tap itself, so copy before any awaiting
  let copied=false;const cp=navigator.clipboard&&navigator.clipboard.writeText?navigator.clipboard.writeText(text).then(()=>copied=true,()=>{}):Promise.resolve();
  const cv=card(o);const blob=await new Promise(r=>cv.toBlob(r,'image/png'));const file=new File([blob],'freewill.png',{type:'image/png'});
@@ -896,7 +898,7 @@ let row=null,hl=null,held=null,hist={},timer=0,lastSig='',lastPhase='';
 function ensure(){const c=document.getElementById('c');if(!c)return null;if(!row){row=document.createElement('div');row.id='fw-live';c.insertAdjacentElement('afterend',row);
   row.addEventListener('pointerdown',e=>{const b=e.target.closest('.ch');if(!b)return;held=+b.dataset.id;b.classList.add('held');outline();});
   const up=()=>{if(held==null)return;held=null;row.querySelectorAll('.held').forEach(b=>b.classList.remove('held'));if(hl)hl.style.display='none';};
-  ['pointerup','pointercancel','pointerleave'].forEach(t=>row.addEventListener(t,up));row.addEventListener('contextmenu',e=>e.preventDefault());}
+  ['pointerup','pointercancel','pointerleave'].forEach(t=>row.addEventListener(t,up));['pointerup','pointercancel','touchend','touchcancel','blur','scroll'].forEach(t=>window.addEventListener(t,up,{passive:true,capture:true}));{const po=feel.on;feel.on=function(n,d){if(n==='phase')up();return po.apply(this,arguments);};}row.addEventListener('contextmenu',e=>e.preventDefault());}
  return row;}
 function outline(){if(held==null||!window.game||!game.familyCells)return;const c=document.getElementById('c');if(!c)return;
  if(!hl){hl=document.createElement('canvas');hl.id='fw-hl';document.body.appendChild(hl);}

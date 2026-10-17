@@ -1,6 +1,6 @@
 // service worker by 10101: makes the game installable and playable offline.
 // bump VERSION whenever index.html, feel.js or game.js change, so phones pick up the new build.
-const VERSION='fw-64';
+const VERSION='fw-66';
 // music is optional: each track is cached if it exists, and a missing one never breaks the install
 // flip to true together with MUSIC_READY in feel.js once the songs are in music/
 const MUSIC_READY=true;

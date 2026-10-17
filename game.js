@@ -138,6 +138,8 @@ const RPLUS={name:'Rookie+',cands:3,foes:1,gens:120,budget:16,ban:['pulsar'],max
 const ARENA=[0,0,0,'plus','plus',1,1,2,2,3];
 const arenaStep=w=>ARENA[Math.min(9,w)];
 const arenaTier=()=>{ const a=arenaStep(arena.wins); return a==='plus'?0:a; };
+const winsT=p=>(p=>mode==='hotseat'?NAME[p]+' wins':Pn(p)+(p===1?' win':' wins'))(p);
+const pn=p=>mode==='hotseat'?NAME[p]:p===1?'you':(mode==='cpu'?(rival?rival.name:curT().name):'the computer'), Pn=p=>{const n=pn(p);return n[0].toUpperCase()+n.slice(1);};
 const arenaOpp=w=>{ const a=arenaStep(w); return a==='plus'?RPLUS:TIERS[a]; };
 const curT=()=>arena?arenaOpp(arena.wins):TIERS[tier];
 function startArena(){ newGame('cpu',{wins:0,lives:3});
@@ -695,21 +697,21 @@ function tick(fast){
 function finish(b,w){
   phase='over'; flashMsg=''; const win=b>w?1:w>b?2:0;
   if(mode==='campaign'){ missionFinish(b,w); emit('phase',{phase:'over'}); }
-  else { emit('winner',{winner:win}); emit('phase',{phase:'over'});
-  overText = win ? `${NAME[win]} wins, ${Math.max(b,w)} cells to ${Math.min(b,w)}` : `Draw, ${b} cells each`;
+  else { emit('winner',{winner:win,label:win?winsT(win):''}); emit('phase',{phase:'over'});
+  overText = win ? `${Pn(win)} ${win===1&&mode!=='hotseat'?'win':'wins'}, ${Math.max(b,w)} cells to ${Math.min(b,w)}` : `Draw, ${b} cells each`;
   if(gen<GENS) overText+=` (wiped out at generation ${gen})`;
   match.results.push(win); if(win) match.score[win-1]++;
   rivalLine=''; if(rival&&mode==='cpu'){ const r=recOf(rival); if(win===1){ r.wins++; if(rival.counter) rivalLine=`You beat ${rival.name}. Its counter: ${rival.counter}`; } else if(win===2) r.losses++; persist(); }
   if(mode==='cpu'&&win===1) recordGhost(placed[1],oppRating());   // the ghost is as strong as what it beat
   if(arena){ rate(win===1?1:win===2?0:.5);   // each arena game counts as a result, rated against this game's opponent
-    if(win===1) arena.wins++; else if(win===2) arena.lives--;
+    if(win===1) arena.wins++; else if(win===2) arena.lives--; emit('arena',{game:match.round,wins:arena.wins,lives:arena.lives,opponent:rival?rival.name:curT().name});
     matchOver = arena.wins>=10 || arena.lives<=0;
     if(matchOver){ const champ=arena.wins>=10, prevBest=save.arenaBest||0; if(arena.wins>(save.arenaBest||0)){ save.arenaBest=arena.wins; toasts.push(`New best arena run: ${arena.wins} wins`); }
       // 15 XP per win past your previous best, 5 per win otherwise, so three quick Rookie wins can't be farmed run after run
       { const nb=Math.max(0,arena.wins-prevBest), old=arena.wins-nb, xp=15*nb+5*old; if(xp) gainXP(xp,nb?`for ${arena.wins} arena win${arena.wins===1?'':'s'} (${nb} past your best)`:`for another arena run (${arena.wins} win${arena.wins===1?'':'s'})`); } if(champ) achieve('arena'); persist();
-      setTimeout(()=>emit('matchWinner',{winner:champ?1:2}),1200); } }
+      setTimeout(()=>emit('matchWinner',{winner:champ?1:2,label:winsT(champ?1:2)+' the arena'}),1200); } }
   else matchOver = match.score[0]*2>ROUNDS || match.score[1]*2>ROUNDS || match.results.length>=ROUNDS;
-  if(matchOver&&!arena){ const mw=match.score[0]>match.score[1]?1:match.score[1]>match.score[0]?2:0; setTimeout(()=>emit('matchWinner',{winner:mw}),1200);
+  if(matchOver&&!arena){ const mw=match.score[0]>match.score[1]?1:match.score[1]>match.score[0]?2:0; setTimeout(()=>emit('matchWinner',{winner:mw,label:mw?winsT(mw)+' the match':''}),1200);
     if(mode==='cpu') rate(mw===1?1:mw===2?0:.5);
     if(mode==='cpu'&&mw===1){ save.wins++; const tn=TIERS[tier].name; save.beatTier=save.beatTier||{};
       // the big tier bonus is paid once per tier (a tier below your rank was beaten before beatTier existed); repeat wins get a small one
@@ -881,13 +883,13 @@ function renderHud0(){
     // the round and match score live in feel.js's round strip, so the setup line no longer repeats them
     const tl=testLine()?`<span style="color:#fc6">${testLine()}</span><br>`:'';
     if(tl){ hud.innerHTML=tl.replace(/<br>$/,''); return; }   // a test-run line stands alone, so the header stays at two lines on a 390 px phone; the next action brings the build line back
-    hud.innerHTML= match.round===1 ? `${tl}<b>${NAME[me]}</b>, build your half. Points left: <b>${BUDGET-spent[me]}</b> of ${BUDGET}`
-      : `${tl||(nudgeOn()?`<span style="color:#fc6">Same layout as last round, and they've adapted to it. Press ready again to keep it anyway.</span><br>`:'')||(flashMsg&&!warn?`<span style="color:#fc6">${flashMsg}</span><br>`:'')}<b>${NAME[me]}</b>, change your layout. Free to place now: <b>${leftFor(me)}</b>`; return; }
+    hud.innerHTML= match.round===1 ? `${tl}<b>${mode==='hotseat'?NAME[me]:'Your turn'}</b>, build your half. Points left: <b>${BUDGET-spent[me]}</b> of ${BUDGET}`
+      : `${tl||(nudgeOn()?`<span style="color:#fc6">Same layout as last round, and they've adapted to it. Press ready again to keep it anyway.</span><br>`:'')||(flashMsg&&!warn?`<span style="color:#fc6">${flashMsg}</span><br>`:'')}<b>${mode==='hotseat'?NAME[me]:'Your turn'}</b>, change your layout. Free to place now: <b>${leftFor(me)}</b>`; return; }
   const fw=p=>'&#9679;'.repeat(fwLeft[p])+'&#9675;'.repeat(FW-fwLeft[p]);
   if(phase==='menu'){ hud.innerHTML=`<b>Missions and progress</b>`; return; }   // level and XP are shown once, in the panel below
   const head=mode==='campaign'?`${mName()} &middot; goal: ${M().goalText} &middot; gen ${gen} of ${GENS}`:(arena?`${arenaHead()} &middot; gen ${gen} of ${GENS}`:`round ${match.round} of ${ROUNDS} &middot; generation ${gen} of ${GENS} &middot; most cells at the end wins`);
-  hud.innerHTML=`${head}<br><span style="color:#000;background:#aaa;padding:0 4px">01010: ${b} cells</span> &nbsp; <span style="color:#fff">10101: ${w} cells</span><br>`+
-    (mode==='campaign'?(FW?`<small>free will left: ${fw(1)}</small>`:''):`<small>free will left: 01010 ${fw(1)} &nbsp; 10101 ${fw(2)}</small>`);
+  hud.innerHTML=`${head}<br><span style="color:#000;background:#aaa;padding:0 4px">${pn(1)}: ${b} cells</span> &nbsp; <span style="color:#fff">${pn(2)}: ${w} cells</span><br>`+
+    (mode==='campaign'?(FW?`<small>free will left: ${fw(1)}</small>`:''):`<small>free will left: ${pn(1)} ${fw(1)} &nbsp; ${pn(2)} ${fw(2)}</small>`);
 }
 function renderGraph(){
   graph.style.display=(phase==='setup'||phase==='idle'||phase==='menu'||(phase==='over'&&mode==='campaign'))?'none':'';   // a mission's result doesn't need the strip
@@ -962,7 +964,7 @@ function renderPanel(){
       `<div style="margin:8px"><b>Achievements</b><br>${ach}</div><div class="tip">Progress is saved in this browser on this device.</div>`;
   } else if(phase==='over'){
     const toastH=toasts.length?`<div style="margin:6px;color:#ffd84a">${toasts.join('<br>')}</div>`:'';
-    let ms=toastH+(matchOver?`<div style="font-size:26px;margin:8px;padding:8px;${match.score[0]>match.score[1]?'background:#000;color:#fff':match.score[1]>match.score[0]?'background:#fff;color:#000':'background:#808080;color:#000'}">${match.score[0]>match.score[1]?'01010 wins the match':match.score[1]>match.score[0]?'10101 wins the match':'The match is a draw'}, ${Math.max(...match.score)} to ${Math.min(...match.score)}</div>`:'')+`<div style="margin:4px">Match score: 01010 has won ${match.score[0]}, 10101 has won ${match.score[1]}, after round ${match.round} of ${ROUNDS}${matchOver?` &middot; <b>${match.score[0]>match.score[1]?'01010 wins the match':match.score[1]>match.score[0]?'10101 wins the match':'the match is a draw'}</b>`:''}</div>`;
+    let ms=toastH+(matchOver?`<div style="font-size:26px;margin:8px;padding:8px;${match.score[0]>match.score[1]?'background:#000;color:#fff':match.score[1]>match.score[0]?'background:#fff;color:#000':'background:#808080;color:#000'}">${match.score[0]>match.score[1]?winsT(1)+' the match':match.score[1]>match.score[0]?winsT(2)+' the match':'The match is a draw'}, ${Math.max(...match.score)} to ${Math.min(...match.score)}</div>`:'')+`<div style="margin:4px">Match score: ${pn(1)} ${mode==='hotseat'?'has':'have'} won ${match.score[0]}, ${pn(2)} has won ${match.score[1]}, after round ${match.round} of ${ROUNDS}${matchOver?` &middot; <b>${match.score[0]>match.score[1]?winsT(1)+' the match':match.score[1]>match.score[0]?winsT(2)+' the match':'the match is a draw'}</b>`:''}</div>`;
     if(arena){ ms=toastH+(matchOver?`<div style="font-size:24px;margin:8px;padding:8px;background:${arena.wins>=10?'#1d3a1d':'#3a1d1d'}">${arena.wins>=10?'Arena champion: 10 wins!':`Arena run over: ${arena.wins} win${arena.wins===1?'':'s'}`} &middot; best ${save.arenaBest||0}</div>`:`<div style="margin:6px">${arenaHead()}</div>`); }
     const btns=ms+(rivalLine?`<div style="color:#9f9;margin:4px">${rivalLine}</div>`:'')+(fragile?`<div style="color:#fc6;margin:4px">${fragile}</div>`:'')+(mode==='cpu'&&placed[1].length?`<button data-a="chal">challenge a friend with this layout</button>`:'')+(matchOver
       ? `<button data-a="again">${arena?'new arena run':'new match'}</button>${mode==='cpu'&&!arena&&save.tier>tier&&tier<3?`<button data-a="harder">next match vs ${TIERS[tier+1].name}</button>`:''}<button data-a="menu">progress</button><button data-a="title">back to title</button>`
