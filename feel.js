@@ -311,7 +311,12 @@ function play(name){if(!MUSIC_READY||!started||name===curName)return;audioCtx();
 setInterval(()=>{heat*=.96;if(!cur||!ctx||cur.layers.length<2)return;const t=ctx.currentTime;cur.layers.forEach(l=>{if(l.k)l.g.gain.setTargetAtTime(target(l,cur.layers.length),t,.8);});},250);
 // phones block audio until the first tap, so music starts on the first touch or click anywhere
 const kick=()=>{if(started)return;started=true;audioCtx();play(want);};
-let want='title';addEventListener('pointerdown',kick,{capture:true});addEventListener('keydown',kick,{capture:true});
+// iPhone Safari only lets audio start on touchend or click, not on touchstart or pointerdown, so keep retrying the
+// unlock on those until the audio context is really running (otherwise the title loop waits until the play tap)
+// Safari 17+: let Web Audio play with the silent switch on, the same as the in-game songs already do
+try{if(navigator.audioSession)navigator.audioSession.type='playback';}catch(e){}
+const unlock=()=>{kick();if(ctx&&ctx.state!=='running'){ctx.resume();try{const s=ctx.createBufferSource();s.buffer=ctx.createBuffer(1,1,22050);s.connect(ctx.destination);s.start(0);}catch(e){}}};
+let want='title';['pointerdown','pointerup','touchend','click','keydown'].forEach(t=>addEventListener(t,unlock,{capture:true,passive:true}));
 const go=n=>{want=n;play(n);};
 const prevOn=feel.on;feel.on=function(name,d={}){prevOn.call(feel,name,d);
  if(name==='flipBurst')heat=Math.min(1,heat+(d.count||0)/120);
