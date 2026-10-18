@@ -16,6 +16,8 @@ const css=`
 #feel-title p{position:relative;color:#bbb;margin:4px 0 22px;max-width:480px;text-align:center;line-height:1.5;background:rgba(32,32,32,.85);padding:8px 14px}
 #feel-title button{position:relative;font:16px monospace;margin:6px;padding:10px 26px;background:#333;color:#eee;border:1px solid #666;cursor:pointer;min-width:300px}
 #feel-title button:hover{background:#808080;color:#000}
+#feel-title button[data-mode]:not(.big),#feel-title button#feel-lab{width:min(340px,88vw);min-width:0;box-sizing:border-box;padding:10px 12px;display:block;margin:6px auto}
+#feel-title button small{white-space:normal}
 #feel-mute{position:fixed;top:10px;right:12px;z-index:60;font:13px monospace;background:#333;color:#ddd;border:1px solid #555;padding:4px 8px;cursor:pointer}
 #feel-banner{height:30px;line-height:30px;margin:0 0 6px;font:bold 18px monospace;padding:0 18px;border:1px solid #555;opacity:0;pointer-events:none;transition:opacity .35s}
 #feel-banner.on{opacity:1}
@@ -50,7 +52,7 @@ t.innerHTML=`<canvas id="feel-bg" width="96" height="60"></canvas>
 <button data-mode="campaign" class="big">play</button>
 <button data-mode="daily">daily challenge<small>same board for everyone today</small></button>
 <button data-mode="arena">arena run<small>win 10 games before you lose 3 lives</small></button>
-<button data-mode="cpu">quick match vs computer<small>you are 01010 (black, top half)</small></button><button data-mode="hotseat">two players, one screen<small>01010 is black on top, 10101 is white below</small></button>
+<button data-mode="cpu">quick match vs computer<small>you play black, top half</small></button><button data-mode="hotseat">two players, one screen<small>01010 is black on top, 10101 is white below</small></button>
 <details id="feel-rules"><summary>how it works</summary><p>Spend 20 points building patterns in your half, then watch 500 generations play out. <b style="color:#eee">Most living cells at generation 500 wins.</b> A cell surrounded by more enemy cells than friendly ones switches sides, and you get two free-will gliders to launch while it runs.</p></details>
 `;
 document.body.appendChild(t);
@@ -240,7 +242,7 @@ bind();document.addEventListener('DOMContentLoaded',bind);
 const t=document.getElementById('feel-title');if(!t)return;
 const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;if(standalone)return;
 const b=document.createElement('button');b.id='feel-install';b.textContent='add to home screen';b.style.display='none';
-const hint=document.createElement('p');hint.id='feel-ios';hint.style.cssText='display:none;font-size:12px;color:#aaa;background:none';hint.textContent='To install on iPhone: tap Share, then "Add to Home Screen". It works offline.';
+const hint=document.createElement('p');hint.id='feel-ios';hint.style.cssText='display:none;font-size:12px;color:#aaa;background:none;white-space:normal;max-width:min(88vw,340px);margin-left:auto;margin-right:auto;text-align:center;box-sizing:border-box';hint.textContent='iPhone: tap Share, then "Add to Home Screen" to play offline.';
 const rules=document.getElementById('feel-rules');t.insertBefore(b,rules);t.insertBefore(hint,rules);
 let ev=null;addEventListener('beforeinstallprompt',e=>{e.preventDefault();ev=e;b.style.display='';hint.style.display='none';});
 b.onclick=async e=>{e.stopPropagation();if(!ev)return;ev.prompt();await ev.userChoice;ev=null;b.style.display='none';};
