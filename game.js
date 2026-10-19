@@ -748,7 +748,7 @@ function finish(b,w){
     const win=b>w?1:w>b?2:0;
     if(mode!=='hotseat'&&review[1].mine.some(pc=>/free-will/.test(pc.label)&&pc.worth>=50)) achieve('hero');
     if(win&&mode!=='campaign'){ const flips=review[win].mine.filter(pc=>pc.cfOwn<=pc.cfOpp).sort((x,y)=>(x.cfOwn-x.cfOpp)-(y.cfOwn-y.cfOpp));
-      if(flips.length===1){ const pc=flips[0], blow=Math.abs(b-w)>(b+w)/2; fragile=`${blow?'Key piece':'Fragile win'}: without ${mode==='hotseat'?NAME[win]+"'s":win===1?'your':pn(2)+"'s"} ${pc.label} (${pc.where}) ${pc.cfOwn===pc.cfOpp?`it would have been a draw, ${pc.cfOwn} each`:`${Pn(3-win)} would have won, ${pc.cfOpp} to ${pc.cfOwn}`}.`; } }
+      if(flips.length===1){ const pc=flips[0], blow=Math.abs(b-w)>(b+w)/2; fragile=`${blow?'Key piece':'Fragile win'}: without ${mode==='hotseat'?NAME[win]+"'s":win===1?'your':pn(2).replace(/^The /,'the ')+"'s"} ${pc.label} (${pc.where}) ${pc.cfOwn===pc.cfOpp?`it would have been a draw, ${pc.cfOwn} each`:`${pn(3-win).replace(/^The /,'the ')} would have won, ${pc.cfOpp} to ${pc.cfOwn}`}.`; } }
     render();
   })();
 }

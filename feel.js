@@ -468,6 +468,7 @@ function show(d){hide();clearTimeout(tm);el=document.createElement('div');el.id=
  const rec=d.record&&(d.record.wins||d.record.losses)?`against them you've won ${d.record.wins||0} and lost ${d.record.losses||0}`:'first meeting';
  el.innerHTML=`<div class="vs">YOUR RIVAL</div><div class="nm"></div><canvas width="640" height="320"></canvas><div class="bl"></div><div class="rc">${rec}</div><div class="go">tap to start building</div>`;
  el.querySelector('.nm').textContent=d.name||'Unknown';el.querySelector('.bl').textContent=d.blurb||'';
+ if(performance.now()-tierTap<1000){el.dataset.soft='1';el.style.pointerEvents='none';}
  document.body.appendChild(el);
  // mini picture of the rival's half, drawn with the current theme
  const cv=el.querySelector('canvas'),x=cv.getContext('2d'),T=feel.theme?feel.theme():null,S=10;
@@ -482,7 +483,11 @@ function show(d){hide();clearTimeout(tm);el=document.createElement('div');el.id=
 let swallowUntil=0;
 // buttons in the game panel (ready, starter layout, rotate...) still work: the tap closes the card and goes through. tray pieces don't
 const passes=e=>{const t=e.target&&e.target.closest&&e.target.closest('#game-panel button');return !!t&&!t.closest('#g-tray');};
-const eat=e=>{const now=performance.now();if(el){hide();clearTimeout(tm);if(passes(e)){swallowUntil=0;return;}swallowUntil=now+600;}else if(now>swallowUntil||passes(e))return;
+// picking an opponent with its button is a deliberate tap, so that card is only a notice: the next tap closes it and still counts
+let tierTap=-1e9;
+const eat=e=>{const now=performance.now();if(e.type==='click'&&e.target&&e.target.closest&&e.target.closest('[data-tier]'))tierTap=now;
+ if(el&&el.dataset.soft){hide();clearTimeout(tm);return;}
+ if(el){hide();clearTimeout(tm);if(passes(e)){swallowUntil=0;return;}swallowUntil=now+600;}else if(now>swallowUntil||passes(e))return;
  if(e.cancelable)e.preventDefault();e.stopPropagation();e.stopImmediatePropagation();};
 ['pointerdown','pointerup','mousedown','mouseup','touchstart','touchend','click','contextmenu'].forEach(t=>window.addEventListener(t,eat,{capture:true,passive:false}));
 const prev=feel.on;feel.on=function(n,d={}){prev.call(feel,n,d);if(n==='opponent')show(d);if(n==='phase'&&d.phase==='run')hide();};
