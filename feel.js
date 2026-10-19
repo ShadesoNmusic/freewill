@@ -899,7 +899,7 @@ const st=document.createElement('style');st.textContent=`#fw-live{display:none;f
 #fw-live .ch{flex:none;font:12px monospace;padding:6px 9px;border-radius:14px;background:#2c2c2c;color:#ddd;border:1px solid #555;white-space:nowrap;user-select:none;-webkit-user-select:none;touch-action:pan-x;cursor:pointer}
 #fw-live .ch.top{background:#ffd84a;color:#000;border-color:#fff6c8;font-weight:bold}#fw-live .ch.dead{opacity:.45}
 #fw-live.more{-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
-#fw-live .ch.held{outline:2px solid #ffd84a;outline-offset:1px}#fw-live .lb{flex:none;font:11px monospace;color:#888;align-self:center}
+#fw-live .ch.held{outline:2px solid #ffd84a;outline-offset:1px}#fw-live .lb{flex:none;font:12px monospace;color:#888;align-self:center}
 #fw-hl{position:fixed;pointer-events:none;z-index:20}`;document.head.appendChild(st);
 let row=null,hl=null,held=null,hist={},timer=0,lastSig='',lastPhase='';
 function ensure(){const c=document.getElementById('c');if(!c)return null;if(!row){row=document.createElement('div');row.id='fw-live';c.insertAdjacentElement('afterend',row);
@@ -957,7 +957,7 @@ function build(el){const d=el.dataset;let st0=0;try{st0=(game._state().save.star
  const beat=best==null?'':rows.filter(r=>best>=r[1]).map(r=>r[0]).pop();
  const row=(l,v,you)=>`<div class="r${you?' you':''}"><span class="l">${l}</span><span class="t"><span class="b" style="display:block;width:${v==null?0:Math.max(2,v/max*100)}%"></span></span><span class="v">${v==null?'\u2013':v}</span></div>`;
  el.classList.add('fw-ys');
- el.innerHTML=`<div class="cap">${best==null?'how others score'+(u?' ('+u+')':''):beat?'your best beats the '+beat+' layout':(stars>=3?'3 stars! ':'')+`layouts here reach ${rows[0][1]}\u2013${rows[rows.length-1][1]}`}</div>`+row('you',best,true)+rows.map(r=>row(r[0],r[1])).join('');
+ el.innerHTML=`<div class="cap">${best==null?'how others score'+(u?' ('+u+')':''):beat?'your best beats the '+beat+' layout':`layouts here reach ${rows[0][1]}\u2013${rows[rows.length-1][1]}`}</div>`+row('you',best,true)+rows.map(r=>row(r[0],r[1])).join('');
  d.fwDone=key;}
 const scan=()=>document.querySelectorAll('.fw-yardstick').forEach(build);
 new MutationObserver(scan).observe(document.documentElement,{childList:true,subtree:true});scan();

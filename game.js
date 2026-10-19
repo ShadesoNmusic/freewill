@@ -307,24 +307,24 @@ const dayNo=k=>{const [y,m,d]=k.split('-').map(Number);return Math.round((Date.U
 function seeded(str){ let h=1779033703^str.length; for(let i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}
   let a=h>>>0; return ()=>{ a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 let dailyKey=dayKey();
-const DAILY={id:'daily',title:'Daily',hint:'Same board for everyone today. Beat it using as few points as you can.',goalText:'more cells than them at generation 400',
+const DAILY={id:'daily',title:'Daily',hint:'Same board for everyone today. Win first, and fewer points is a bonus.',goalText:'more cells than them at generation 400',
   budget:20,shapes:['block','blinker','glider','rpent','gun'],gens:400,goal:'most',fw:0,
   build(){ const rand=seeded('freewill-'+dailyKey), T={ban:['lwss','eater','pulsar']};
     const cands=Array.from({length:4},()=>randomLayout(2,rand,T)), foes=Array.from({length:2},()=>randomLayout(1,rand,T).grid);
     let bi=0, bs=-1e9;
     cands.forEach((c,ci)=>{ let sc=0; for(const f of foes){ let x=new Int8Array(N*N); for(let i=0;i<N*N;i++) x[i]=f[i]||c.grid[i]; for(let t=0;t<120;t++) x=stepGrid(x).n; const [b,w]=count(x); sc+=w-b; } if(sc>bs){bs=sc;bi=ci;} });
     for(const o of cands[bi].out) place(2,o.s,o.r,o.m,o.cx,o.cy,true,true); }};
-const dailyStage=()=>save.daily&&save.daily.key===dailyKey?'practice':save.dprac===dailyKey?'official go':'practice go first';
+let dGo=null; const dailyStage=()=>dGo||(save.daily&&save.daily.key===dailyKey?'practice':save.dprac===dailyKey?'official go':'practice go first');
 const dailyName=()=>`FreeWill daily #${dayNo(dailyKey)}`;
 const dailyLine=d=>`${d.win?'won':'lost'} ${d.b} to ${d.w} using ${d.pts} point${d.pts===1?'':'s'}`;
-function startDaily(keep){ dailyKey=dayKey(); startMission(-1,keep); }
+function startDaily(keep){ dailyKey=dayKey(); dGo=null; dGo=dailyStage(); startMission(-1,keep); }
 function dailyFinish(b,w){
   missionOK=b>w; const off=save.daily&&save.daily.key===dailyKey, prac=!off&&save.dprac!==dailyKey;
   if(prac){ save.dprac=dailyKey; persist(); }
   else if(!off){ const y=new Date(); y.setDate(y.getDate()-1); const yk=`${y.getFullYear()}-${String(y.getMonth()+1).padStart(2,'0')}-${String(y.getDate()).padStart(2,'0')}`;
     save.dstreak = save.daily&&save.daily.key===yk ? (save.dstreak||0)+1 : 1;
     save.daily={key:dailyKey,b,w,pts:spent[1],win:missionOK,grid:Array.from(g).join('')}; persist(); if(missionOK){ gainXP(30,'for the daily challenge'); recordGhost(placed[1]); } }
-  overText = `${prac?'Practice go: ':''}${missionOK?'You beat':'Not this time on'} today's board: you ${b}, them ${w}${off?' (practice)':''}.`;
+  overText = `${prac?'Practice go: ':''}${missionOK?'You beat':'Not this time on'} today's board: you ${b}, them ${w}${off?' (practice)':''}.`+(missionOK?'':spent[1]<(M().budget||10)/2?` You only used ${spent[1]} of ${M().budget} points. Spend more, since winning comes first.`:' Try more growers like R-pentominoes, or blocks in front to soak up gliders.');
   emit('winner',{winner:missionOK?1:2});
 }
 function shareDaily(){ const d=save.daily; if(!d||d.key!==dailyKey) return;
@@ -386,7 +386,7 @@ function shareChallenge(line){ const url=chalURL(placed[1]);
   try{ window.feel&&window.feel.share&&window.feel.share({title:'FreeWill challenge',line,board:g.slice(),N,url}); }catch(e){ console.warn(e); } }
 const M=()=>mi===-2?CHALLENGE:mi<0?DAILY:MISSIONS[mi];
 const arenaHead=()=>`Arena game ${match.round} vs ${rival?rival.name:curT().name} &middot; ${arena.wins} of 10 wins &middot; <span style="white-space:nowrap">lives <span style="color:#f66">${'&#9829;'.repeat(arena.lives)}</span><span style="color:#ccc">${'&#9825;'.repeat(3-arena.lives)}</span></span>`;
-const mName=()=>mi===-2?'Challenge from a friend':mi<0?`${dailyName().replace('FreeWill d','D')} (${dailyStage()})`:`Mission ${mi+1}: ${M().title}`;
+const mName=()=>mi===-2?'Challenge from a friend':mi<0?`Daily challenge #${dayNo(dailyKey)} &middot; same board for everyone (${dailyStage()})`:`Mission ${mi+1}: ${M().title}`;
 const allowedShape=s=>mode==='campaign'?(M().shapes?M().shapes.includes(s.id):unlockedShape(s)):unlockedShape(s);
 const missionOpen=i=>i===0||!!save.done[MISSIONS[i-1].id];
 function startCampaign(){ const i=MISSIONS.findIndex(m=>!save.done[m.id]); if(i<0) return showMenu(); startMission(i); }
@@ -748,7 +748,7 @@ function finish(b,w){
     const win=b>w?1:w>b?2:0;
     if(mode!=='hotseat'&&review[1].mine.some(pc=>/free-will/.test(pc.label)&&pc.worth>=50)) achieve('hero');
     if(win&&mode!=='campaign'){ const flips=review[win].mine.filter(pc=>pc.cfOwn<=pc.cfOpp).sort((x,y)=>(x.cfOwn-x.cfOpp)-(y.cfOwn-y.cfOpp));
-      if(flips.length===1){ const pc=flips[0], blow=Math.abs(b-w)>(b+w)/2; fragile=`${blow?'Key piece':'Fragile win'}: without ${NAME[win]}'s ${pc.label} (${pc.where}) ${pc.cfOwn===pc.cfOpp?`it would have been a draw, ${pc.cfOwn} each`:`${NAME[3-win]} would have won, ${pc.cfOpp} to ${pc.cfOwn}`}.`; } }
+      if(flips.length===1){ const pc=flips[0], blow=Math.abs(b-w)>(b+w)/2; fragile=`${blow?'Key piece':'Fragile win'}: without ${mode==='hotseat'?NAME[win]+"'s":win===1?'your':pn(2)+"'s"} ${pc.label} (${pc.where}) ${pc.cfOwn===pc.cfOpp?`it would have been a draw, ${pc.cfOwn} each`:`${Pn(3-win)} would have won, ${pc.cfOpp} to ${pc.cfOwn}`}.`; } }
     render();
   })();
 }
@@ -959,8 +959,8 @@ function renderPanel(){
     const nextLvl=SHAPES.find(s=>s.lvl&&s.lvl>level());
     const mis=MISSIONS.map((m,i)=>`<button data-m="${i}" ${missionOpen(i)?'':'disabled'} style="min-width:220px">${missionOpen(i)?'':'&#128274; '}${i+1}. ${m.title}${save.done[m.id]?` <span style="color:#ffd84a">${starTxt(save.stars[m.id]||1)}</span>`:''}</button>`).join('<br>');
     const ach=Object.entries(ACH).map(([id,[n,d]])=>`<div style="display:inline-block;width:180px;margin:3px;padding:4px;border:1px solid ${save.ach[id]?'#ffd84a':'#444'};color:${save.ach[id]?'#ffd84a':'#777'};font-size:12px;vertical-align:top"><b>${save.ach[id]?'&#9733; ':''}${n}</b><br>${d}</div>`).join('');
-    panel.innerHTML=`<div style="margin:6px">Level ${level()}: ${save.xp%XPL} of ${XPL} XP to level ${level()+1}${nextLvl?`, which unlocks the ${SHAPES.find(s=>s.lvl===level()+1)?SHAPES.find(s=>s.lvl===level()+1).label:nextLvl.label}`:''}.<br>Rank: ${rankName()}. Rating: ${rating()}. Matches won: ${save.wins}.</div>`+
-      `<div style="margin:8px"><b>Missions</b> &middot; ${MISSIONS.reduce((a,m)=>a+(save.stars[m.id]||(save.done[m.id]?1:0)),0)} of ${MISSIONS.length*3} stars<br>${mis}</div><div><button data-a="daily" style="font-size:16px">${dailyName().replace('FreeWill d','D')}${save.daily&&save.daily.key===dayKey()?` &middot; ${dailyLine(save.daily)}`:''}</button><br><button data-a="arena">arena: win 10 before you lose 3 lives${save.arenaBest?` &middot; best ${save.arenaBest}`:''}</button><br><button data-a="quick">quick match</button><button data-a="title">title screen</button></div>`+
+    panel.innerHTML=`<div style="margin:6px"><button data-a="title">title screen</button><button data-a="quick">quick match</button><button data-a="arena">arena${save.arenaBest?` (best ${save.arenaBest})`:''}</button></div><div style="margin:6px">Level ${level()}: ${save.xp%XPL} of ${XPL} XP to level ${level()+1}${nextLvl?`, which unlocks the ${SHAPES.find(s=>s.lvl===level()+1)?SHAPES.find(s=>s.lvl===level()+1).label:nextLvl.label}`:''}.<br>Rank: ${rankName()}. Rating: ${rating()}. Matches won: ${save.wins}.</div>`+
+      `<div style="margin:8px"><b>Missions</b> &middot; ${MISSIONS.reduce((a,m)=>a+(save.stars[m.id]||(save.done[m.id]?1:0)),0)} of ${MISSIONS.length*3} stars<br>${mis}</div><div><button data-a="daily" style="font-size:16px">Daily challenge #${dayNo(dailyKey)} &middot; same board for everyone${save.daily&&save.daily.key===dayKey()?` &middot; ${dailyLine(save.daily)}`:''}</button></div>`+
       `<div style="margin:8px"><b>Achievements</b><br>${ach}</div><div class="tip">Progress is saved in this browser on this device.</div>`;
   } else if(phase==='over'){
     const toastH=toasts.length?`<div style="margin:6px;color:#ffd84a">${toasts.join('<br>')}</div>`:'';
